@@ -8,18 +8,15 @@ using code = vision::code;
 brain  Brain;
 
 // VEXcode device constructors
+controller Controller1 = controller(primary);
 motor leftMotorA = motor(PORT1, ratio6_1, false);
 motor leftMotorB = motor(PORT2, ratio6_1, false);
 motor_group LeftDriveSmart = motor_group(leftMotorA, leftMotorB);
-motor rightMotorA = motor(PORT11, ratio6_1, true);
-motor rightMotorB = motor(PORT12, ratio6_1, true);
+motor rightMotorA = motor(PORT10, ratio6_1, true);
+motor rightMotorB = motor(PORT9, ratio6_1, true);
 motor_group RightDriveSmart = motor_group(rightMotorA, rightMotorB);
 drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, 319.19, 295, 40, mm, 1);
-controller Controller1 = controller(primary);
-motor moveBarMotorMotorA = motor(PORT8, ratio18_1, false);
-motor moveBarMotorMotorB = motor(PORT7, ratio18_1, false);
-motor_group moveBarMotor = motor_group(moveBarMotorMotorA, moveBarMotorMotorB);
-motor spinWheelsMotor = motor(PORT9, ratio18_1, false);
+motor Motor8 = motor(PORT8, ratio18_1, false);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable
@@ -35,10 +32,10 @@ int rc_auto_loop_function_Controller1() {
   while(true) {
     if(RemoteControlCodeEnabled) {
       // calculate the drivetrain motor velocities from the controller joystick axies
-      // left = Axis3
-      // right = Axis2
-      int drivetrainLeftSideSpeed = Controller1.Axis3.position();
-      int drivetrainRightSideSpeed = Controller1.Axis2.position();
+      // left = Axis3 + Axis1
+      // right = Axis3 - Axis1
+      int drivetrainLeftSideSpeed = Controller1.Axis3.position() + Controller1.Axis1.position();
+      int drivetrainRightSideSpeed = Controller1.Axis3.position() - Controller1.Axis1.position();
       
       // check if the value is inside of the deadband range
       if (drivetrainLeftSideSpeed < 5 && drivetrainLeftSideSpeed > -5) {
